@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+
+	"github.com/raulcoroiu/wowTeamComp/pkg/models"
 )
 
 const (
@@ -27,8 +29,8 @@ func makeRequest() ([]byte, error) {
 	return body, nil
 }
 
-func parseResponse(responseBody []byte) (*ApiResponse, error) {
-	var apiResponse ApiResponse
+func parseResponse(responseBody []byte) (*models.ApiResponse, error) {
+	var apiResponse models.ApiResponse
 	err := json.Unmarshal(responseBody, &apiResponse)
 	if err != nil {
 		return nil, err
@@ -36,7 +38,7 @@ func parseResponse(responseBody []byte) (*ApiResponse, error) {
 	return &apiResponse, nil
 }
 
-func printRun(run Run) {
+func printRun(run models.Run) {
 	fmt.Println("Run:")
 	fmt.Printf("Season: %s\n", run.Season)
 	fmt.Printf("Status: %s\n", run.Status)
@@ -51,7 +53,7 @@ func printRun(run Run) {
 	// mai trebuie adaugate
 }
 
-func printRuns(apiResponse *ApiResponse) {
+func printRuns(apiResponse *models.ApiResponse) {
 	fmt.Println("Mythic+ Runs:")
 
 	for i, ranking := range apiResponse.Rankings {
