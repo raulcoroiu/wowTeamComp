@@ -11,8 +11,6 @@ const (
 	apiURL = "https://raider.io/api/v1/mythic-plus/runs?season=season-df-1&region=world&dungeon=all&page=0"
 )
 
-
-
 // makeRequest sends an HTTP GET request to the API endpoint and returns the response body.
 func makeRequest() ([]byte, error) {
 	resp, err := http.Get(apiURL)
@@ -50,7 +48,7 @@ func printRun(run Run) {
 	fmt.Printf("Number of Chests: %d\n", run.NumChests)
 	fmt.Printf("Time Remaining (ms): %d\n", run.TimeRemainingMS)
 
-	// mai trebuie adaugate 
+	// mai trebuie adaugate
 }
 
 func printRuns(apiResponse *ApiResponse) {
