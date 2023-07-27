@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"sort"
 
 	"github.com/raulcoroiu/wowTeamComp/pkg/models"
 )
@@ -13,7 +14,6 @@ const (
 	apiURL = "https://raider.io/api/v1/mythic-plus/runs?season=season-df-1&region=world&dungeon=all&page=0"
 )
 
-// makeRequest sends an HTTP GET request to the API endpoint and returns the response body.
 func MakeRequest() ([]byte, error) {
 	resp, err := http.Get(apiURL)
 	if err != nil {
@@ -63,4 +63,47 @@ func PrintRuns(apiResponse *models.ApiResponse) {
 		PrintRun(ranking.Run)
 	}
 
+}
+
+//---De aci am incercat cu  chat GPT sa fac ceva :)))
+
+func getCompositionFromRoster(roster []models.Roster) []models.ClassFaction {
+	composition := make([]models.ClassFaction, 0)
+
+	for _, r := range roster {
+		composition = append(composition, r.Character.Faction)
+	}
+
+	return composition
+}
+
+func FindTopCompositions(apiResponse *models.ApiResponse, classSpec string) map[int64][]models.CompositionData {
+	compositionsByKeystone := make(map[int64][]models.CompositionData)
+
+	for _, ranking := range apiResponse.Rankings {
+		run := ranking.Run
+
+		for _, roster := range run.Roster {
+			if roster.Character.Spec.Name == classSpec {
+				keystoneLevel := run.MythicLevel
+				composition := getCompositionFromRoster(run.Roster)
+				averageScore := ranking.Score
+
+				compositionsByKeystone[keystoneLevel] = append(compositionsByKeystone[keystoneLevel], models.CompositionData{
+					Composition:  composition,
+					AverageScore: averageScore,
+				})
+
+				sort.Slice(compositionsByKeystone[keystoneLevel], func(i, j int) bool {
+					return compositionsByKeystone[keystoneLevel][i].AverageScore > compositionsByKeystone[keystoneLevel][j].AverageScore
+				})
+
+				if len(compositionsByKeystone[keystoneLevel]) > 3 {
+					compositionsByKeystone[keystoneLevel] = compositionsByKeystone[keystoneLevel][:3]
+				}
+			}
+		}
+	}
+
+	return compositionsByKeystone
 }

@@ -226,3 +226,8 @@ type Status string
 const (
 	Finished Status = "finished"
 )
+
+type CompositionData struct {
+	Composition  []ClassFaction
+	AverageScore float64
+}
