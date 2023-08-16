@@ -2,8 +2,10 @@ package main
 
 import (
 	"fmt"
+	"net/http"
 
 	"github.com/raulcoroiu/wowTeamComp/pkg/controllers"
+	"github.com/raulcoroiu/wowTeamComp/routes"
 )
 
 func main() {
@@ -19,18 +21,9 @@ func main() {
 		return
 	}
 
-	//controllers.PrintRuns(apiResponse)
+	controllers.PrintRuns(apiResponse)
 
-	// Replace "monk_mistweaver" with the desired class specialization (e.g., "monk_mistweaver", "balance_druid", "protection_warrior")
-	classSpec := "monk_mistweaver"
-
-	topCompositions := controllers.FindTopCompositions(apiResponse, classSpec)
-	for keystoneLevel, compositions := range topCompositions {
-		fmt.Printf("Top 3 compositions for Keystone Level %d:\n", keystoneLevel)
-		for i, compositionData := range compositions {
-			fmt.Printf("%d. Composition: %v, Average Score: %.2f\n", i+1, compositionData.Composition, compositionData.AverageScore)
-		}
-		fmt.Println()
-	}
+	r := &routes.Router{}
+	http.ListenAndServe(":8000", r)
 
 }

@@ -40,6 +40,7 @@ type Run struct {
 	KeystoneTeamID     int64            `json:"keystone_team_id"`
 	Roster             []Roster         `json:"roster"`
 	Platoon            interface{}      `json:"platoon"`
+	Score              float64          `json:"score"`
 }
 
 type Dungeon struct {
@@ -228,6 +229,6 @@ const (
 )
 
 type CompositionData struct {
-	Composition  []ClassFaction
+	Composition  string
 	AverageScore float64
 }

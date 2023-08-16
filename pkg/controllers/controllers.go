@@ -3,15 +3,14 @@ package controllers
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
-	"sort"
 
 	"github.com/raulcoroiu/wowTeamComp/pkg/models"
 )
 
 const (
-	apiURL = "https://raider.io/api/v1/mythic-plus/runs?season=season-df-1&region=world&dungeon=all&page=0"
+	apiURL = "https://raider.io/api/v1/mythic-plus/runs?season=season-df-1&region=world&page=0"
 )
 
 func MakeRequest() ([]byte, error) {
@@ -21,7 +20,7 @@ func MakeRequest() ([]byte, error) {
 	}
 	defer resp.Body.Close()
 
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
@@ -43,12 +42,19 @@ func PrintRun(run models.Run) {
 	fmt.Printf("Season: %s\n", run.Season)
 	fmt.Printf("Status: %s\n", run.Status)
 	fmt.Printf("Keystone Run ID: %d\n", run.KeystoneRunID)
+	//fmt.Printf("keystone Run Name: %s\n", run.ke)
 	fmt.Printf("Mythic Level: %d\n", run.MythicLevel)
 	fmt.Printf("Clear Time (ms): %d\n", run.ClearTimeMS)
 	fmt.Printf("Keystone Time (ms): %d\n", run.KeystoneTimeMS)
 	fmt.Printf("Completed At: %s\n", run.CompletedAt)
 	fmt.Printf("Number of Chests: %d\n", run.NumChests)
 	fmt.Printf("Time Remaining (ms): %d\n", run.TimeRemainingMS)
+
+	for _, member := range run.Roster {
+		fmt.Printf("Race: %s\n", member.Character.Race.Name)
+		fmt.Printf("Class: %s\n", member.Character.Class.Name)
+		fmt.Printf("Spec: %s\n", member.Character.Spec.Name)
+	}
 
 	// mai trebuie adaugate
 }
@@ -63,47 +69,4 @@ func PrintRuns(apiResponse *models.ApiResponse) {
 		PrintRun(ranking.Run)
 	}
 
-}
-
-//---De aci am incercat cu  chat GPT sa fac ceva :)))
-
-func getCompositionFromRoster(roster []models.Roster) []models.ClassFaction {
-	composition := make([]models.ClassFaction, 0)
-
-	for _, r := range roster {
-		composition = append(composition, r.Character.Faction)
-	}
-
-	return composition
-}
-
-func FindTopCompositions(apiResponse *models.ApiResponse, classSpec string) map[int64][]models.CompositionData {
-	compositionsByKeystone := make(map[int64][]models.CompositionData)
-
-	for _, ranking := range apiResponse.Rankings {
-		run := ranking.Run
-
-		for _, roster := range run.Roster {
-			if roster.Character.Spec.Name == classSpec {
-				keystoneLevel := run.MythicLevel
-				composition := getCompositionFromRoster(run.Roster)
-				averageScore := ranking.Score
-
-				compositionsByKeystone[keystoneLevel] = append(compositionsByKeystone[keystoneLevel], models.CompositionData{
-					Composition:  composition,
-					AverageScore: averageScore,
-				})
-
-				sort.Slice(compositionsByKeystone[keystoneLevel], func(i, j int) bool {
-					return compositionsByKeystone[keystoneLevel][i].AverageScore > compositionsByKeystone[keystoneLevel][j].AverageScore
-				})
-
-				if len(compositionsByKeystone[keystoneLevel]) > 3 {
-					compositionsByKeystone[keystoneLevel] = compositionsByKeystone[keystoneLevel][:3]
-				}
-			}
-		}
-	}
-
-	return compositionsByKeystone
 }

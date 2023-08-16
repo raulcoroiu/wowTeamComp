@@ -3,3 +3,22 @@ daca utilizez defer la o functie aceastea este executata doar dupa ce celelate f
 
 --Body--
 body-ul trebuie inchis ca sa paote fi reutilizata conexiunea sau sa nu ramana deschis 
+
+--controllers-
+functiile
+
+--models--
+obiectele
+
+--methods--
+func (sr *Router) ServeHTTP(w http.ResponseWriter, r *http.Request)
+-''func'': This keyword is used to define a function in Go.
+-''(sr *Router)'': This is the method receiver. It specifies 
+that the ServeHTTP function is a method of the type *Router.
+In Go, methods are functions that are associated with a specific type. 
+Here, *Router is a pointer to the Router type.
+-''ServeHTTP'': This is the name of the method. In this case, it's ServeHTTP.
+-''(w http.ResponseWriter, r *http.Request)'': These are the function parameters. 
+The ServeHTTP method takes two parameters: w, which is an http.ResponseWriter 
+and r, which is an *http.Request. These parameters are used to handle the HTTP 
+response and request objects, respectively.
