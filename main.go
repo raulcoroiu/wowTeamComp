@@ -2,10 +2,8 @@ package main
 
 import (
 	"fmt"
-	"net/http"
 
 	"github.com/raulcoroiu/wowTeamComp/pkg/controllers"
-	"github.com/raulcoroiu/wowTeamComp/routes"
 )
 
 func main() {
@@ -23,7 +21,7 @@ func main() {
 
 	controllers.PrintRuns(apiResponse)
 
-	r := &routes.Router{}
-	http.ListenAndServe(":8000", r)
+	//r := &routes.Router{}
+	//http.ListenAndServe(":8000", r)
 
 }

@@ -1,23 +1,10 @@
 package routes
 
-import "net/http"
+import (
+	"github.com/gin-gonic/gin"
+	//	"github.com/raulcoroiu/wowTeamComp/pkg/controllers"
+)
 
-type RouteEntry struct {
-	Path    string
-	Method  string
-	Handler http.HandlerFunc
-}
-
-type Router struct {
-	routes []RouteEntry
-}
-
-func (rtr *Router) Route(method, path string, handlerFunc http.HandlerFunc) {
-	e := RouteEntry{
-		Method:  method,
-		Path:    path,
-		Handler: handlerFunc,
-	}
-
-	rtr.routes = append(rtr.routes, e)
+func UserRouts(incomingRoutes *gin.Engine) {
+	//	incomingRoutes.POST("/user/bestcomp", controllers.BestCompHandler())
 }

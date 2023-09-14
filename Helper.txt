@@ -2,23 +2,44 @@
 daca utilizez defer la o functie aceastea este executata doar dupa ce celelate functii sunt executate
 
 --Body--
-body-ul trebuie inchis ca sa paote fi reutilizata conexiunea sau sa nu ramana deschis 
+body-ul trebuie inchis ca sa paote fi reutilizata conexiunea
 
 --controllers-
-functiile
+metodele
 
 --models--
 obiectele
 
+
+
 --methods--
-func (sr *Router) ServeHTTP(w http.ResponseWriter, r *http.Request)
+---------------------------------------------------------
+ func (sr *Router) ServeHTTP(w http.ResponseWriter, r *http.Request)
+ ---------------------------------------------------------
 -''func'': This keyword is used to define a function in Go.
 -''(sr *Router)'': This is the method receiver. It specifies 
-that the ServeHTTP function is a method of the type *Router.
-In Go, methods are functions that are associated with a specific type. 
-Here, *Router is a pointer to the Router type.
+ that the ServeHTTP function is a method of the type *Router.
+ In Go, methods are functions that are associated with a specific type. 
+ Here, *Router is a pointer to the Router type.
 -''ServeHTTP'': This is the name of the method. In this case, it's ServeHTTP.
 -''(w http.ResponseWriter, r *http.Request)'': These are the function parameters. 
-The ServeHTTP method takes two parameters: w, which is an http.ResponseWriter 
-and r, which is an *http.Request. These parameters are used to handle the HTTP 
-response and request objects, respectively.
+ The ServeHTTP method takes two parameters: w, which is an http.ResponseWriter 
+ and r, which is an *http.Request. These parameters are used to handle the HTTP 
+ response and request objects, respectively.
+
+When a method is defined with a receiver, you can call it on an instance of the
+ receiver type. For example, if you have a variable myRouter of type *Router,
+  you can call the ServeHTTP method on it like this:
+---------------------------------------------------------
+myRouter := &Router{} // Assuming Router is a struct type
+myRouter.ServeHTTP(responseWriter, request)
+---------------------------------------------------------
+
+
+
+--requests--
+  For every incoming request, we'll need to do the following:
+-Extract HTTP method and URL path from the request
+-Check if any routes exist that match the method and path
+-Invoke the route if there is a match
+-Return a 404 if no match is found
