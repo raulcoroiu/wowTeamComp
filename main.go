@@ -3,7 +3,9 @@ package main
 import (
 	"fmt"
 
+	"github.com/gin-gonic/gin"
 	"github.com/raulcoroiu/wowTeamComp/pkg/controllers"
+	"github.com/raulcoroiu/wowTeamComp/routes"
 )
 
 func main() {
@@ -21,7 +23,9 @@ func main() {
 
 	controllers.PrintRuns(apiResponse)
 
-	//r := &routes.Router{}
-	//http.ListenAndServe(":8000", r)
+	r := gin.Default()
 
+	routes.DefineRoutes(r)
+
+	r.Run(":8080")
 }
