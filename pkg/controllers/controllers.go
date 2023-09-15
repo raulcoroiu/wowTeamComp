@@ -80,21 +80,17 @@ func SpecAndClassExist(vector models.Ranking, class string, spec string) Result 
 }
 
 func GetBestTeamHandler(c *gin.Context) {
-	// Parse query parameters for class and spec
 	class := c.Query("class")
 	spec := c.Query("spec")
 
 	if class == "" || spec == "" {
-		//c.JSON(http.StatusBadRequest, gin.H{"error": "Missing class or spec query parameter"})
 		c.HTML(http.StatusBadRequest, "index.html", gin.H{"error": "Missing class or spec"})
 		return
 	}
 
-	// Make the request to the Raider.io API (you may want to add error handling)
 	responseBody, _ := MakeRequest()
 	apiResponse, _ := ParseResponse(responseBody)
 
-	// Find the best team for the specified class and spec
 	var bestTeam Result
 	for _, ranking := range apiResponse.Rankings {
 		bestTeam = SpecAndClassExist(ranking, class, spec)
