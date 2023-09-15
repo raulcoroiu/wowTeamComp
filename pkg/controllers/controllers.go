@@ -85,6 +85,7 @@ func GetBestTeamHandler(c *gin.Context) {
 
 	if class == "" || spec == "" {
 		c.HTML(http.StatusBadRequest, "index.html", gin.H{"error": "Missing class or spec"})
+		//c.JSON(http.StatusBadRequest, gin.H{"error": "Missing class or spec query parameter"})
 		return
 	}
 
