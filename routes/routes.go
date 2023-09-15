@@ -6,5 +6,5 @@ import (
 )
 
 func UserRouts(incomingRoutes *gin.Engine) {
-	//	incomingRoutes.POST("/user/bestcomp", controllers.BestCompHandler())
+	//incomingRoutes.POST("/user/bestcomp", controllers.SpecAndClassExistHandler())
 }
