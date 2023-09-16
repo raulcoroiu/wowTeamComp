@@ -1,18 +1,49 @@
 <!DOCTYPE html>
 <html>
+ 
 <head>
     <title>Get Best Team</title>
+    <link rel="stylesheet" href="/public/assets/style.css">
 </head>
+ 
 <body>
     <h1>Get Best Team</h1>
-    <form action="/getBestTeam" method="GET">
+    <form>
         <label for="class">Class:</label>
         <input type="text" id="class" name="class" required><br><br>
-
+ 
         <label for="spec">Spec:</label>
         <input type="text" id="spec" name="spec" required><br><br>
-
-        <input type="submit" value="Submit">
+        <label id="result">ASd</label>
+        <input type="submit" id="getTeamButton" value="Submit">
     </form>
+    <script>
+        function getTeamData(e) {
+            e.preventDefault() 
+            const wowSpec = document.getElementById('spec').value
+            const wowClass = document.getElementById('class').value
+            fetch(`http://localhost:8080/getBestTeam?class=${wowClass}&spec=${wowSpec}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    // Request was successful, you can process the response data here
+                    document.getElementById('result').innerHTML = data;
+                })
+                .catch(error => {
+                    // Handle errors here
+                    console.error('Fetch error:', error);
+                });
+        }
+ 
+        const getTeamButton = document.getElementById('getTeamButton');
+        getTeamButton.addEventListener('click', getTeamData);
+    </script>
+    
+
 </body>
+ 
 </html>

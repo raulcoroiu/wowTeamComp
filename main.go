@@ -5,24 +5,11 @@ import (
 	"github.com/raulcoroiu/wowTeamComp/pkg/controllers"
 )
 
-func main() {
-	//responseBody, err := controllers.MakeRequest()
-	//if err != nil {
-	//	fmt.Println("Error making request:", err)
-	//	return
-	//}
+const localhost = ":8080"
 
-	//apiResponse, err := controllers.ParseResponse(responseBody)
-	//if err != nil {
-	//	fmt.Println("Error parsing JSON resp", err)
-	//	return
-	//}
+func main() {
 
 	r := gin.Default()
-
-	// Define your API routes
 	r.GET("/getBestTeam", controllers.GetBestTeamHandler)
-
-	// Start the Gin server on port 8080.
 	r.Run(":8080")
 }

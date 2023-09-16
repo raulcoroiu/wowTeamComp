@@ -7,11 +7,7 @@ import (
 
 func DefineRoutes(r *gin.Engine) {
 
-	r.LoadHTMLGlob("templates/*")
-	r.GET("/", func(c *gin.Context) {
-		c.HTML(200, "index.html", nil)
-	})
-
+	//r := gin.Default()+63
 	r.GET("/getBestTeam", controllers.GetBestTeamHandler)
 
 }
