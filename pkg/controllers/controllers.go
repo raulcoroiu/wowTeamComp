@@ -80,12 +80,14 @@ func SpecAndClassExist(vector models.Ranking, class string, spec string) Result 
 }
 
 func GetBestTeamHandler(c *gin.Context) {
+
+	c.Header("Access-Control-Allow-Origin", "http://127.0.0.1:5500")
+
 	class := c.Query("class")
 	spec := c.Query("spec")
 
 	if class == "" || spec == "" {
-		c.HTML(http.StatusBadRequest, "index.html", gin.H{"error": "Missing class or spec"})
-		//c.JSON(http.StatusBadRequest, gin.H{"error": "Missing class or spec query parameter"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Missing class or spec query parameter"})
 		return
 	}
 
