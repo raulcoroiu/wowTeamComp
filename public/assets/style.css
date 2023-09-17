@@ -7,7 +7,44 @@
 .banner{
     width: 100%;
     height: 100vh;
-    background-image: linear-gradient(rgba(0,0,0,0.25),rgba(0,0,0,0.25)),url(wowBackground.jpg);
+    background-image: linear-gradient(rgba(0,0,0,0.25),rgba(0,0,0,0.25)),url(/public/assets/wowBackground.jpg);
     background-size: cover;
     background-position: center;
+}
+
+.label{
+    position: absolute;
+    top: 350px;
+    right: 850px;
+    width: 200px;
+    height: 150px;
+    color: aliceblue;
+    font-family: Arial, Helvetica, sans-serif;
+    border: 1px solid black;
+    padding: 10px;
+    margin: 10px;
+    
+
+}
+
+.title{
+    position: absolute ;
+    top: 200px;
+    right: 835px;
+    color:aliceblue;
+    font-size: 40px;
+    font-family: Arial, Helvetica, sans-serif;
+
+}
+
+.box{
+    background-color: #000;
+    color: #fff;
+    opacity: .5;
+    width: 200px;
+    height: 100px;
+    border: 1px solid black;
+    padding: 10px;
+    margin: 10px;
+
 }
