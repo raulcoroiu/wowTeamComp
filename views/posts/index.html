@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html>
+
+<meta charset="UTF-8">
  
 <head>
     <title>Get Best Team</title>
@@ -29,8 +31,17 @@
                     return response.text();
                 })
                 .then(data => {
-                    // Request was successful, you can process the response data here
-                    document.getElementById('result').innerHTML = data;
+                    
+                    try {
+                        const jsonData = JSON.parse(data);
+                        console.log('data', data)
+                        const formattedData = JSON.stringify(jsonData, null, 2);
+                        console.log(formattedData)
+                        //document.getElementById('result').textContent = `the rank value is ${jsonData.rank}`;
+                        document.getElementById('result').textContent = formattedData;
+                    } catch (error) {
+                         console.error('JSON parsing error:', error);
+                    }
                 })
                 .catch(error => {
                     // Handle errors here

@@ -82,6 +82,7 @@ func SpecAndClassExist(vector models.Ranking, class string, spec string) Result 
 func GetBestTeamHandler(c *gin.Context) {
 
 	c.Header("Access-Control-Allow-Origin", "http://127.0.0.1:5500")
+	c.Header("Content-Type", "application/json")
 
 	class := c.Query("class")
 	spec := c.Query("spec")
@@ -105,6 +106,11 @@ func GetBestTeamHandler(c *gin.Context) {
 	if bestTeam.Rank == 0 {
 		c.JSON(http.StatusNotFound, gin.H{"error": "No team found for the specified class and spec"})
 	} else {
-		c.JSON(http.StatusOK, bestTeam)
+		bestTeamJSON, err := json.Marshal(bestTeam)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to marshal JSON"})
+		}
+		//c.JSON(http.StatusOK, bestTeam)
+		c.Data(http.StatusOK, "application/json", bestTeamJSON)
 	}
 }
