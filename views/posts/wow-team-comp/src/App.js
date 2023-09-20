@@ -25,7 +25,7 @@ function App() {
   const [result, setResult] = useState('');
   const [currentClass, setCurrentClass] = useState('');
   const [classesInApiResponse, setClassesInApiResponse] = useState([]);
-
+  const [specsInApiResponse, setSpecsInApiResponse] = useState([]);
 
   const handleGetTeamData = async (e) => {
     e.preventDefault();
@@ -40,10 +40,15 @@ function App() {
       const data = await response.json();
       const formattedData = JSON.stringify(data, null, 2);
       setResult(formattedData);
-      console.log(formattedData);
-      const classNames = data.members.map((member) => member.class);
-      setClassesInApiResponse(classNames);
-      console.log(classImages);
+      if (data.members) {
+        const classNames = data.members.map((member) => member.class);
+        const specNames = data.members.map((member) => member.spec);
+        setClassesInApiResponse(classNames);
+        setSpecsInApiResponse(specNames);
+      } else {
+        
+        console.error('data.members is undefined or null');
+      }
     } catch (error) {
       console.error('Fetch error:', error);
     }
@@ -64,6 +69,7 @@ function App() {
       <form className="label">
         <label htmlFor="class">Class:</label>
         <input
+        placeholder='Druid'
           type="text"
           id="class"
           name="class"
@@ -73,6 +79,7 @@ function App() {
         /><br /><br />
         <label htmlFor="spec">Spec:</label>
         <input
+        placeholder='Balance'
           type="text"
           id="spec"
           name="spec"
@@ -89,14 +96,19 @@ function App() {
         />
       </form>
       <div className="class-images-container">
-        {classesInApiResponse.map((className) => (
-          <img
-            key={className}
+        {classesInApiResponse.map((className, index) => (
+         <div key={className} className="class-info">
+           <img
             src={classImages[className]}
             alt={className}
-            className="class-image"
-          />
-        ))}
+           className="class-image"
+           />
+          <div className="class-text">
+          <p>{className}</p>
+          <p>{specsInApiResponse[index]}</p>
+          </div>
+        </div>
+        ))} 
       </div>
     </div>
   );
