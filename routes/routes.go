@@ -2,12 +2,9 @@ package routes
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/raulcoroiu/wowTeamComp/pkg/controllers"
+	//	"github.com/raulcoroiu/wowTeamComp/pkg/controllers"
 )
 
-func DefineRoutes(r *gin.Engine) {
-
-	//r := gin.Default()+63
-	r.GET("/getBestTeam", controllers.GetBestTeamHandler)
-
+func UserRouts(incomingRoutes *gin.Engine) {
+	//	incomingRoutes.POST("/user/bestcomp", controllers.BestCompHandler())
 }

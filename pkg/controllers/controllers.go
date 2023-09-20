@@ -81,7 +81,7 @@ func SpecAndClassExist(vector models.Ranking, class string, spec string) Result 
 
 func GetBestTeamHandler(c *gin.Context) {
 
-	c.Header("Access-Control-Allow-Origin", "http://127.0.0.1:5500")
+	c.Header("Access-Control-Allow-Origin", "*")
 	c.Header("Content-Type", "application/json")
 
 	class := c.Query("class")
