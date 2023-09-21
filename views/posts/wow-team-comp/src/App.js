@@ -97,7 +97,7 @@ function App() {
       </form>
       <div className="class-images-container">
         {classesInApiResponse.map((className, index) => (
-         <div key={className} className="class-info">
+         <div key={index} className="class-info">
            <img
             src={classImages[className]}
             alt={className}
