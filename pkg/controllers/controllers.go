@@ -3,14 +3,11 @@ package controllers
 import (
 	"encoding/json"
 	"fmt"
-	"html/template"
 	"io"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"github.com/raulcoroiu/wowTeamComp/pkg/models"
-	"golang.org/x/crypto/bcrypt"
-	"google.golang.org/protobuf/internal/errors"
 )
 
 const (
@@ -39,9 +36,6 @@ type Result struct {
 	Rank    int64    `json:"rank"`
 	Members []Member `json:"members"`
 }
-
-var authUserDB = map[string]authUser{}
-var DefaultUserService UserService
 
 func MakeRequest() ([]byte, error) {
 	resp, err := http.Get(apiURL)
@@ -131,101 +125,4 @@ func GetBestTeamHandler(c *gin.Context) {
 		}
 		c.Data(http.StatusOK, "application/json", bestTeamJSON)
 	}
-}
-
-func userHandler(w http.ResponseWriter, r *http.Request) {
-	switch r.URL.Path {
-	case "/sign-in":
-		signInUser(w, r)
-	case "/sing-up":
-		signUpUser(w, r)
-	case "/sign-in-form":
-		getSignInPage(w, r)
-	case "/sign-up-form":
-		getSignUpPage(w, r)
-	}
-}
-
-func signInUser(w http.ResponseWriter, r *http.Request) {
-	newUser := getUser(r)
-	_, ok := DefaultUserService.VerifyUser(newUser)
-	if !ok {
-		fileName := "sign-up.html"
-		t, _ := template.ParseFiles(filename)
-		t.ExecuteTemplate(w, fileName, "User Sign-in Failure")
-		return
-	}
-
-	filename := "sign-up.html"
-	t, _ := template.ParseFiles(filename)
-	t.ExecuteTemplate(w, fileName, "User Sign-in")
-
-}
-
-func signUpUser(w http.ResponseWriter, r *http.Request) {
-	newUser := getUser(r)
-	err := DefaultUserService.createUser(newUser)
-	if err != nil {
-		fileName := "sign-up.html"
-		t, _ := template.ParseFiles(filename)
-		t.ExecuteTemplate(w, fileName, "New User Sign-up Failure")
-		return
-	}
-
-	filename := "sign-up.html"
-	t, _ := template.ParseFiles(filename)
-	t.ExecuteTemplate(w, fileName, "New User Sign-up")
-
-}
-
-func getUser(r *http.Request) User {
-	email := r.FormValue("email")
-	password := r.FormValue("password")
-
-	return User{
-		Email:    email,
-		Password: password,
-	}
-}
-
-func (UserService) createUser(newUser User) error {
-	_, ok := authUserDB[newUser.Email]
-	if !ok {
-		return errors.New("user already exist")
-	}
-
-	passwordHash, err := getPasswordHash(newUser.Password)
-	if err != nil {
-		return err
-	}
-	newAuthUser := authUser{
-		email:        newUser.Email,
-		passwordHash: passwordHash,
-	}
-
-	authUserDB[newAuthUser.email] = newAuthUser
-
-	return nil
-
-}
-
-func getPasswordHash(password string) (string, error) {
-	hash, err := bcrypt.GenerateFromPassword([]byte(password), 0)
-	return string(hash), err
-}
-
-func (UserService) VerifyUser(user User) bool{
-	authUser, ok := authUserDB[user.Email]
-	if !ok {
-		return false
-	}
-
-	err := bcrypt.CompareHashAndPassword(
-		[]byte(authUser.passwordHash),
-		[]byte(user.Password))
-
-	return err == nil
-
-
-
 }
