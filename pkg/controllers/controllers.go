@@ -8,6 +8,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/raulcoroiu/wowTeamComp/pkg/models"
+	"golang.org/x/crypto/bcrypt"
 )
 
 const (
@@ -15,11 +16,6 @@ const (
 )
 
 type UserService struct {
-}
-
-type authUser struct {
-	email        string
-	passwordHash string
 }
 
 type User struct {
@@ -125,4 +121,12 @@ func GetBestTeamHandler(c *gin.Context) {
 		}
 		c.Data(http.StatusOK, "application/json", bestTeamJSON)
 	}
+}
+
+func HashPassword(password string) (string, error) {
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	if err != nil {
+		return "", err
+	}
+	return string(hashedPassword), nil
 }

@@ -1,14 +1,3 @@
---Defer--
-daca utilizez defer la o functie aceastea este executata doar dupa ce celelate functii sunt executate
-
---Body--
-body-ul trebuie inchis ca sa paote fi reutilizata conexiunea
-
---controllers-
-metodele
-
---models--
-obiectele
 
 
 

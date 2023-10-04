@@ -7,4 +7,6 @@ import (
 
 func SetupRoutes(r *gin.Engine) {
 	r.GET("/getBestTeam", controllers.GetBestTeamHandler)
+	r.POST("/register", controllers.RegisterHandler)
+	r.POST("/login", controllers.LoginHandler)
 }

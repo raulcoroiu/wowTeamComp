@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/raulcoroiu/wowTeamComp/pkg/routes"
+	"github.com/raulcoroiu/wowTeamComp/routes"
 )
 
 func main() {
