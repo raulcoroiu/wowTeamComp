@@ -3,6 +3,7 @@ import parseArray from './helper/result_helper';
 import './App.css';
 
 
+
 const classImages = {
   Druid: require('./assets/icon_Druid.png'),
   'Demon Hunter' : require('./assets/icon_Demon Hunter.png'),
@@ -113,4 +114,3 @@ export const Main = () => {
     </div>
   );
 }
-

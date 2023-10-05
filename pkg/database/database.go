@@ -13,7 +13,7 @@ var Client *mongo.Client
 
 func init() {
 	// MongoDB connection string
-	connectionString := "mongodb://79.118.145.37:27017/teamCompDB"
+	connectionString := "mongodb+srv://user1:user1@teamcompdb.26yebuc.mongodb.net/teamComp?retryWrites=true&w=majority"
 
 	// Create a context with a timeout
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
